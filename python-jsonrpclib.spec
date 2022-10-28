@@ -27,7 +27,7 @@
 
 Name:      python-%{pkgname}
 Version:   0.4.0
-Release:   CROC1%{?dist}
+Release:   CROC2%{?dist}
 Summary:   JSON-RPC v2.0 client library for Python
 License:   ASL 2.0
 URL:       http://github.com/tcalmant/jsonrpclib/
@@ -102,6 +102,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Oct 28 2022 Ivan Konov <ikonov@croc.ru> - 0.4.0-2
+- Build for rhel8 (without python2)
+
 * Mon Sep 30 2019 Croc Cloud Engineering - 0.4.0-1
 - Build for py2/py3 for Croc cloud
 
