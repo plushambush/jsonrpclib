@@ -11,6 +11,12 @@
 %bcond_with python3
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} >= 8
+%bcond_with python2
+%else
+%bcond_without python2
+%endif
+
 # centos 7.2 and lower versions don't have %py2_* macros, so define it manually
 %if 0%{?rhel} && 0%{?dist_raw} <= 72
 %{!?py2_build: %global py2_build %py_build}
@@ -36,11 +42,13 @@ remote services.\
 
 %description %_description
 
+%if %{with python2}
 %package -n python2-%{pkgname}
 Summary: %summary
 BuildRequires:  python2-devel
 
 %description -n python2-%{pkgname} %_description
+%endif
 
 %if %{with python3}
 %package -n python%{python3_pkgversion}-%{pkgname}
@@ -56,7 +64,9 @@ BuildRequires:  python%{python3_pkgversion}
 
 
 %build
+%if %{with python2}
 %py2_build
+%endif
 
 %if %{with python3}
 %py3_build
@@ -66,7 +76,9 @@ BuildRequires:  python%{python3_pkgversion}
 %install
 [ %buildroot = "/" ] || rm -rf %buildroot
 
+%if %{with python2}
 %py2_install
+%endif
 
 %if %{with python3}
 %py3_install
@@ -76,10 +88,11 @@ BuildRequires:  python%{python3_pkgversion}
 %clean
 rm -rf %{buildroot}
 
-
+%if %{with python2}
 %files -n python2-%{pkgname}
 %license LICENSE
 %{python2_sitelib}/*
+%endif
 
 %if %{with python3}
 %files -n python%{python3_pkgversion}-%{pkgname}
